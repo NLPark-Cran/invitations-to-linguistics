@@ -1,0 +1,239 @@
+# ============================================================
+# script.yaml — Part 1 演示分页文案（英文正文 + 中文小字幕）
+# 网页 deck 与后续 Remotion 视频共用这份文案，改动请走本文件。
+#
+# 每页字段：
+#   id         页面标识
+#   layout     版式：hook / definition / list / triad / map / pairs / closing
+#   kicker_en  章节标签（英文大写）
+#   kicker_zh  章节标签中文小字
+#   title_en   英文主标题（超大字号）
+#   title_zh   中文小字幕
+#   body_en    英文正文句（可选）
+#   body_zh    中文小字幕解释（可选）
+#   items      条目列表（版式相关，见各页）
+# ============================================================
+
+slides:
+  - id: opening
+    layout: hook
+    kicker_en: "CHAPTER 1 · INVITATIONS TO LINGUISTICS"
+    kicker_zh: "语言学总论 · 第 1 组"
+    title_en: "Same sentence. Different meanings."
+    title_zh: "同一句话，不同的人听出不同的意思"
+    body_en: "\"You're really something.\" — a compliment? an accusation? Language is far more complex than we assume. Before anything else, let's get two things straight: language, and linguistics."
+    body_zh: "语言比我们以为的复杂得多。这一章，先把「语言」和「语言学」这两件事讲清楚。"
+
+  - id: definition
+    layout: definition
+    kicker_en: "01 · WHAT IS LANGUAGE"
+    kicker_zh: "语言的定义"
+    title_en: "Language is a system of arbitrary vocal symbols used for human communication."
+    title_zh: "语言是用于人类交际的、任意的有声符号系统"
+    items:
+      - word_en: "SYSTEM"
+        word_zh: "系统性"
+        text_en: "Language is organized by rules — not a random pile of symbols."
+        text_zh: "语言是按规则组织的系统，不是杂乱的符号堆砌"
+      - word_en: "ARBITRARY"
+        word_zh: "任意性"
+        text_en: "No necessary link between a word and the thing it names. Why is a dog called gǒu?"
+        text_zh: "词与所指事物之间没有必然联系——「狗」为什么叫 gǒu？"
+      - word_en: "VOCAL"
+        word_zh: "声音媒介"
+        text_en: "Speech is primary; writing is derived from it."
+        text_zh: "口语是第一性的，文字是派生的"
+      - word_en: "HUMAN"
+        word_zh: "人类独有"
+        text_en: "Animal call systems never show all the design features of language."
+        text_zh: "动物交际系统不具备语言的全部识别特征"
+
+  - id: features
+    layout: list
+    kicker_en: "02 · DESIGN FEATURES"
+    kicker_zh: "识别特征"
+    title_en: "What makes language, language?"
+    title_zh: "是什么让语言成为语言？五个识别特征"
+    items:
+      - term_en: "Arbitrariness"
+        term_zh: "任意性"
+        text_en: "No natural bond between signifier and signified."
+        text_zh: "能指与所指无自然联系（索绪尔）"
+      - term_en: "Duality"
+        term_zh: "二重性"
+        text_en: "Meaningless sounds × meaningful units — a two-level structure of extreme efficiency."
+        text_zh: "无意义的语音层 × 有意义的符号层，双层结构效率极高"
+      - term_en: "Creativity"
+        term_zh: "创造性"
+        text_en: "Finite means, infinite use — recursion makes new sentences endless."
+        text_zh: "有限手段，无限使用（递归造句）"
+      - term_en: "Displacement"
+        term_zh: "移位性"
+        text_en: "We can talk about what is not here and not now — past, future, fiction."
+        text_zh: "可以谈论不在此时此地的事物：过去、未来、虚构"
+      - term_en: "Cultural Transmission"
+        term_zh: "文化传递"
+        text_en: "Language travels by teaching and learning, not by genes."
+        text_zh: "语言靠教与学传递，不是靠基因"
+
+  - id: functions
+    layout: list
+    kicker_en: "03 · FUNCTIONS OF LANGUAGE"
+    kicker_zh: "语言的功能"
+    title_en: "Seven jobs for one tool."
+    title_zh: "一件工具，七种用途"
+    items:
+      - term_en: "Informative"
+        term_zh: "信息功能"
+        text_en: "Stating facts — the major function of language."
+        text_zh: "陈述事实——语言最主要的功能"
+      - term_en: "Interpersonal"
+        term_zh: "人际功能"
+        text_en: "Maintaining social relations and identities."
+        text_zh: "维持社会关系与身份"
+      - term_en: "Performative"
+        term_zh: "施为功能"
+        text_en: "Saying is doing: \"I declare…\", \"I apologize.\""
+        text_zh: "说话即做事（「我宣布…」「我道歉」）"
+      - term_en: "Emotive"
+        term_zh: "感情功能"
+        text_en: "Expressing attitudes and emotions."
+        text_zh: "表达态度与情绪"
+      - term_en: "Phatic"
+        term_zh: "寒暄功能"
+        text_en: "\"吃了吗？\" — not for information, but for connection."
+        text_zh: "不为信息，只为接通关系"
+      - term_en: "Recreational"
+        term_zh: "娱乐功能"
+        text_en: "Poetry, jokes, wordplay — language for sheer fun."
+        text_zh: "诗歌、段子、文字游戏"
+      - term_en: "Metalingual"
+        term_zh: "元语言功能"
+        text_en: "Using language to talk about language — linguistics itself runs on it."
+        text_zh: "用语言谈论语言——语言学本身就在用它"
+
+  - id: linguistics
+    layout: triad
+    kicker_en: "04 · WHAT IS LINGUISTICS"
+    kicker_zh: "什么是语言学"
+    title_en: "Linguistics is the scientific study of language."
+    title_zh: "语言学是对语言的科学研究"
+    body_en: "\"Scientific\" is the load-bearing word. A linguistic analysis answers to three principles, and knowledge grows in a loop: observe data → form a hypothesis → test and revise."
+    body_zh: "关键在「科学」二字。三条准则约束分析，一个循环推进认识：观察语料 → 概括假设 → 验证修正。"
+    items:
+      - term_en: "Exhaustiveness"
+        term_zh: "穷尽性"
+        text_en: "Account for all the relevant data, not just the convenient examples."
+        text_zh: "覆盖所有相关语料，不只挑顺手的例子"
+      - term_en: "Consistency"
+        term_zh: "一致性"
+        text_en: "No self-contradiction anywhere in the analysis."
+        text_zh: "分析内部不得自相矛盾"
+      - term_en: "Economy"
+        term_zh: "经济性"
+        text_en: "Of two equally valid accounts, the simpler one wins."
+        text_zh: "同样有效时，越简洁的解释越好"
+
+  - id: branches
+    layout: map
+    kicker_en: "05 · THE MAP OF LINGUISTICS"
+    kicker_zh: "语言学分支地图"
+    title_en: "One discipline, many doors."
+    title_zh: "一门学科，许多入口"
+    body_en: "The core branches form the chapters ahead of this course — each carried forward by another group. The macro branches connect language to society, mind, application… and computation."
+    body_zh: "核心分支对应本课程后续章节，由各小组依次展开；宏观分支把语言接向社会、心智、应用——以及计算。"
+    items:
+      core:
+        - { term_en: "Phonetics",   term_zh: "语音学",  text_zh: "语音的物理与生理" }
+        - { term_en: "Phonology",   term_zh: "音系学",  text_zh: "语音在系统中的组织规律", group: "第 2 组" }
+        - { term_en: "Morphology",  term_zh: "形态学",  text_zh: "词的内部结构",           group: "第 3 组" }
+        - { term_en: "Syntax",      term_zh: "句法学",  text_zh: "句子结构",               group: "第 4 组" }
+        - { term_en: "Semantics",   term_zh: "语义学",  text_zh: "意义" }
+        - { term_en: "Pragmatics",  term_zh: "语用学",  text_zh: "语境中的意义" }
+      macro:
+        - { term_en: "Sociolinguistics",        term_zh: "社会语言学",  text_zh: "语言与社会" }
+        - { term_en: "Psycholinguistics",       term_zh: "心理语言学",  text_zh: "语言与心智" }
+        - { term_en: "Applied Linguistics",     term_zh: "应用语言学",  text_zh: "语言教学与实际问题" }
+        - { term_en: "Computational Linguistics", term_zh: "计算语言学", text_zh: "← 通往 Part 3 的桥", bridge: true }
+
+  - id: distinctions
+    layout: pairs
+    kicker_en: "06 · FOUR KEY DISTINCTIONS"
+    kicker_zh: "四对重要区分"
+    title_en: "Draw the lines first."
+    title_zh: "先把界限划清楚"
+    items:
+      - left_en: "Prescriptive"
+        left_zh: "规定式"
+        right_en: "Descriptive"
+        right_zh: "描写式"
+        note_en: "Linguistics describes facts; it does not legislate correctness."
+        note_zh: "语言学描写事实，不规定对错"
+      - left_en: "Synchronic"
+        left_zh: "共时"
+        right_en: "Diachronic"
+        right_zh: "历时"
+        note_en: "A frozen slice of one moment vs. the long movie of change."
+        note_zh: "某一时刻的切片 vs 历史演变的长镜头"
+      - left_en: "Langue"
+        left_zh: "语言"
+        right_en: "Parole"
+        right_zh: "言语"
+        note_en: "Saussure: the shared social system vs. individual actual use."
+        note_zh: "索绪尔：社会共享的系统 vs 个人的实际使用"
+      - left_en: "Competence"
+        left_zh: "语言能力"
+        right_en: "Performance"
+        right_zh: "语言运用"
+        note_en: "Chomsky: internalized knowledge vs. actual performance."
+        note_zh: "乔姆斯基：内在知识 vs 实际表现"
+
+  - id: closing
+    layout: closing
+    kicker_en: "NOW EXPLORE"
+    kicker_zh: "进入图谱"
+    title_en: "Every classic concept is a signpost to the unexplored."
+    title_zh: "总论里的每个经典概念，都是通向未至之境的路标"
+    body_en: "The full network is below — drag it, search it, open every node. Then keep scrolling: where does language go when meaning becomes geometry?"
+    body_zh: "完整概念网络就在下方——拖拽、搜索、点开每一个节点。继续往下：当意义变成几何，语言将去向何处？"
+
+# ---------- Part 3 研究板块文案（网页与视频共用） ----------
+research:
+  author_en: "Cran May"
+  author_zh: "杭州电子科技大学 · JWorld NLPark"
+  hypothesis:
+    title_en: "The Semantic Manifold Hypothesis"
+    title_zh: "语义流形假说"
+    text_en: "Meaning is not a bag of discrete symbols — it is a smooth manifold living in a high-dimensional continuous latent space. If so, generating text should be modelled as optimal path-search over an energy landscape, not as word-by-word probability sampling."
+    text_zh: "意义不是离散符号的集合，而是高维连续潜空间中的一张光滑流形。若如此，文本生成应被建模为能量地貌上的最优路径搜索，而非逐词概率采样。"
+  sfgs:
+    title_en: "SFGS — Semantic Flow-Driven Generative System"
+    title_zh: "语义流驱动生成系统"
+    modules:
+      - name_en: "Flow Planner"
+        name_zh: "流规划器"
+        text_en: "Lays a \"semantic riverbed\" in continuous latent space with a stochastic differential equation."
+        text_zh: "用随机微分方程在连续潜空间铺出「语义河床」"
+        formula: "dF_t = μ_θ(F_t, c, t) dt + σ_φ(F_t, t) dW_t"
+      - name_en: "Energy-Guided Generator"
+        name_zh: "能量引导生成器"
+        text_en: "Attention is bent toward the plan: drift from the flow and the score decays."
+        text_zh: "注意力被规划「磁化」：偏离语义流，分数即衰减"
+        formula: "Score_ij = Q_i K_j^T / √d_k − γ ‖Q_i − F_t‖²"
+      - name_en: "Energy Meter"
+        name_zh: "能量判别器"
+        text_en: "Fluent and coherent text gets low energy; drift and hallucination cost more."
+        text_zh: "流畅且连贯的文本获得低能量；漂移与幻觉代价更高"
+        formula: "E(x, F) = E_fluency(x) + λ · E_coherence(x, F)"
+      - name_en: "Langevin Inference"
+        name_zh: "朗之万动力学推理"
+        text_en: "Steepest descent along the energy gradient, with noise to escape shallow minima — from System-1 intuition to System-2 planning."
+        text_zh: "沿能量梯度最速下降，注入噪声逃离浅层极小值——从直觉式生成（System 1）走向规划式生成（System 2）"
+        formula: "z_{k+1} = z_k − η ∇_z E(z_k, F) + √(2η) ε_k,  ε_k ~ N(0, I)"
+  projection:
+    title_en: "Projection Playground"
+    title_zh: "维度投影小互动"
+    text_en: "A 3D manifold holds meaning effortlessly. Project it down and watch what survives: drop one dimension and intrinsic information is lost; catch a plane orthogonally and nothing projects at all. Drag to rotate, switch the projection, feel the loss."
+    text_zh: "三维流形从容地承载意义；一旦向低维投影，本征信息开始流失；若平面与流形正交，则几乎没有有效投影。拖动旋转、切换视角，亲手感受「80 维意义投到 60 维」的损失。"
+  closing_en: "Every classic concept in this chapter is a signpost to the unexplored."
+  closing_zh: "总论里的每个经典概念，都是通向未至之境的路标。"

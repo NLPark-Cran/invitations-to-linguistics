@@ -1,0 +1,9 @@
+# 工具与大文件不入库
+.tools/
+references/
+alice-tool-web_fetch-*.txt
+*.pdf
+*.mp4
+*.doc
+*.pptx
+node_modules/

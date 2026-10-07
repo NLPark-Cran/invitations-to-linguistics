@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invitations to Linguistics · 语言学总论 — Interactive Knowledge Graph</title>
+<meta name="description" content="Chapter 1 knowledge graph of General Linguistics — lecture deck, explorable concept network, and the Semantic Manifold research section.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============================================================
+     本地 SVG 图标库（Tabler 风格线性图标，stroke 绘制）
+     业务背景：PRD 要求图标一律本地 SVG、禁 emoji、禁 CDN；
+     用 <symbol> 雪碧图内联，页面内以 <use href="#i-xxx"> 引用。
+     ============================================================ -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M5 12h14M5 12l6 6M5 12l6-6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M21 21l-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+  <symbol id="i-nodes" viewBox="0 0 24 24"><circle cx="5" cy="6" r="2.2" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="19" cy="6" r="2.2" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="18" r="2.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M7 7l3.6 8.4M17 7l-3.6 8.4M7.2 6h9.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.2 1.1 2.2h5c0-1 .4-1.6 1.1-2.2A6 6 0 0 0 12 3z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-math" viewBox="0 0 24 24"><path d="M18 5H8l6 7-6 7h10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="19" r="2" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="18" cy="5" r="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 19h7a4 4 0 0 0 0-8H9a4 4 0 0 1 0-8h3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+  <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="10" y="10" width="4" height="4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+  <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 4l1.8 5.2L19 11l-5.2 1.8L12 18l-1.8-5.2L5 11l5.2-1.8L12 4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 6c-2-1.5-4.5-2-8-2v14c3.5 0 6 .5 8 2 2-1.5 4.5-2 8-2V4c-3.5 0-6 .5-8 2zM12 6v14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+  <symbol id="i-voice" viewBox="0 0 24 24"><path d="M4 10v4M8 7v10M12 4v16M16 7v10M20 10v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+  <symbol id="i-fit" viewBox="0 0 24 24"><path d="M4 9V5a1 1 0 0 1 1-1h4M15 4h4a1 1 0 0 1 1 1v4M20 15v4a1 1 0 0 1-1 1h-4M9 20H5a1 1 0 0 1-1-1v-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<!-- 顶部导航：三个部分之间跳转 -->
+<header class="site-header">
+  <div class="brand">
+    <span class="brand-en">INVITATIONS TO LINGUISTICS</span>
+    <span class="brand-zh">语言学总论 · 知识图谱 1.0</span>
+  </div>
+  <nav class="site-nav">
+    <a href="#part-deck"    data-nav="deck"><span class="nav-num">01</span>Lecture<em>演示</em></a>
+    <a href="#part-graph"   data-nav="graph"><span class="nav-num">02</span>Graph<em>图谱</em></a>
+    <a href="#part-research" data-nav="research"><span class="nav-num">03</span>Frontier<em>前沿</em></a>
+  </nav>
+</header>
+
+<main>
+  <!-- ============ Part 1 · 演示分页（deck.js 从 data.js 渲染） ============ -->
+  <section id="part-deck" aria-label="Lecture deck">
+    <div id="deck-stage" class="deck-stage"><!-- slides injected --></div>
+
+    <button class="deck-arrow deck-prev" id="deck-prev" aria-label="Previous slide">
+      <svg class="icon"><use href="#i-arrow-left"/></svg>
+    </button>
+    <button class="deck-arrow deck-next" id="deck-next" aria-label="Next slide">
+      <svg class="icon"><use href="#i-arrow-right"/></svg>
+    </button>
+
+    <div class="deck-hud">
+      <div class="deck-progress" id="deck-progress"><!-- dots injected --></div>
+      <div class="deck-counter"><span id="deck-cur">01</span><span class="deck-sep">/</span><span id="deck-total">08</span></div>
+      <div class="deck-hint">← → · Space · Click<em>翻页</em></div>
+    </div>
+  </section>
+
+  <!-- ============ Part 2 · 可探索概念图谱（graph.js） ============ -->
+  <section id="part-graph" aria-label="Explorable concept graph">
+    <div class="section-head">
+      <p class="kicker"><span class="kicker-en">PART 02 · THE NETWORK</span><span class="kicker-zh">可探索概念图谱</span></p>
+      <h2 class="section-title">Every concept, <span class="hl">connected.</span></h2>
+      <p class="section-sub">Drag the nodes. Open every card. Follow the oppositions. <em>拖拽节点，点开卡片，沿着「对立」关系看清四对区分。</em></p>
+    </div>
+
+    <div class="graph-wrap">
+      <div class="graph-toolbar">
+        <label class="graph-search">
+          <svg class="icon"><use href="#i-search"/></svg>
+          <input id="graph-search-input" type="text" placeholder="Search concepts… 搜索概念" autocomplete="off">
+        </label>
+        <div class="graph-filters" id="graph-filters"><!-- module chips injected --></div>
+        <div class="graph-legend" id="graph-legend"><!-- edge legend injected --></div>
+      </div>
+      <div class="graph-canvas-box">
+        <canvas id="graph-canvas"></canvas>
+        <div class="graph-tip">Drag nodes · Wheel to zoom · Click a node<em>拖拽 · 滚轮缩放 · 点击节点看概念卡片</em></div>
+        <!-- 缩放 HUD：−/＋ 以画布中心为锚点，复位回到全景适配 -->
+        <div class="graph-zoomctl">
+          <button id="gz-out" aria-label="Zoom out"><svg class="icon"><use href="#i-minus"/></svg></button>
+          <span id="gz-level">100%</span>
+          <button id="gz-in" aria-label="Zoom in"><svg class="icon"><use href="#i-plus"/></svg></button>
+          <button id="gz-reset" aria-label="Fit view"><svg class="icon"><use href="#i-fit"/></svg></button>
+        </div>
+      </div>
+
+      <!-- 概念卡片：点击节点后弹出 -->
+      <aside class="concept-card" id="concept-card" hidden>
+        <button class="card-close" id="card-close" aria-label="Close"><svg class="icon"><use href="#i-x"/></svg></button>
+        <p class="card-module" id="card-module"></p>
+        <h3 class="card-title" id="card-title"></h3>
+        <p class="card-zh" id="card-zh"></p>
+        <div class="card-block">
+          <p class="card-label">DEFINITION<em>定义</em></p>
+          <p class="card-def-en" id="card-def-en"></p>
+          <p class="card-def-zh" id="card-def-zh"></p>
+        </div>
+        <div class="card-block">
+          <p class="card-label">EXAMPLE<em>例子</em></p>
+          <p class="card-example" id="card-example"></p>
+        </div>
+        <div class="card-block">
+          <p class="card-label">RELATED<em>相关概念</em></p>
+          <div class="card-related" id="card-related"></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ Part 3 · 从总论到前沿（research.js） ============ -->
+  <section id="part-research" aria-label="Research frontier">
+    <div class="section-head">
+      <p class="kicker"><span class="kicker-en">PART 03 · FROM BASICS TO FRONTIER</span><span class="kicker-zh">从总论到前沿</span></p>
+      <h2 class="section-title">What if meaning is <span class="hl">geometry</span>?</h2>
+      <p class="section-sub">A research note from our lab, growing straight out of this chapter's concepts. <em>从我们实验室生长出来的一页研究手记，根就扎在本章概念里。</em></p>
+    </div>
+
+    <!-- 语义流形假说 -->
+    <article class="research-block" id="hypothesis-block">
+      <p class="rb-label"><svg class="icon"><use href="#i-bulb"/></svg>HYPOTHESIS<em>假说</em></p>
+      <h3 class="rb-title">The Semantic Manifold Hypothesis</h3>
+      <p class="rb-zh-title">语义流形假说</p>
+      <p class="rb-text-en" id="hypo-text-en"></p>
+      <p class="rb-text-zh" id="hypo-text-zh"></p>
+      <div class="manifold-fig" id="manifold-fig"><!-- SVG 流形示意，research.js 绘制 --></div>
+    </article>
+
+    <!-- SFGS 架构图解 -->
+    <article class="research-block" id="sfgs-block">
+      <p class="rb-label"><svg class="icon"><use href="#i-cpu"/></svg>ARCHITECTURE<em>架构</em></p>
+      <h3 class="rb-title">SFGS — Semantic Flow-Driven Generative System</h3>
+      <p class="rb-zh-title">语义流驱动生成系统 · 一页图解</p>
+      <div class="sfgs-diagram" id="sfgs-diagram"><!-- SVG 架构图，research.js 绘制 --></div>
+      <div class="sfgs-modules" id="sfgs-modules"><!-- 模块卡 + 手写公式，research.js 渲染 --></div>
+    </article>
+
+    <!-- 维度投影小互动 -->
+    <article class="research-block" id="projection-block">
+      <p class="rb-label"><svg class="icon"><use href="#i-layers"/></svg>INTERACTIVE<em>互动</em></p>
+      <h3 class="rb-title">Projection Playground</h3>
+      <p class="rb-zh-title">维度投影小互动</p>
+      <p class="rb-text-en" id="proj-text-en"></p>
+      <p class="rb-text-zh" id="proj-text-zh"></p>
+      <div class="proj-stage">
+        <canvas id="proj-canvas"></canvas>
+        <div class="proj-panel">
+          <p class="proj-panel-label">PROJECTION<em>投影方式</em></p>
+          <div class="proj-modes" id="proj-modes">
+            <button data-mode="free"  class="proj-mode is-active">3D → 2D<em>自由视角</em></button>
+            <button data-mode="drop"  class="proj-mode">Drop a dimension<em>丢失一维</em></button>
+            <button data-mode="ortho" class="proj-mode">Orthogonal plane<em>正交无投影</em></button>
+          </div>
+          <div class="proj-meter">
+            <p class="proj-panel-label">INFORMATION PRESERVED<em>保留信息量</em></p>
+            <div class="proj-meter-track"><div class="proj-meter-fill" id="proj-meter-fill"></div></div>
+            <p class="proj-meter-num" id="proj-meter-num">100%</p>
+          </div>
+          <p class="proj-note" id="proj-note">Drag to rotate the manifold.<em>拖动旋转流形</em></p>
+        </div>
+      </div>
+    </article>
+
+    <!-- 收束 + 署名 -->
+    <footer class="research-closing">
+      <p class="closing-line-en" id="closing-en"></p>
+      <p class="closing-line-zh" id="closing-zh"></p>
+      <div class="signature">
+        <svg class="icon"><use href="#i-sparkle"/></svg>
+        <span class="sig-en" id="sig-en"></span>
+        <span class="sig-zh" id="sig-zh"></span>
+      </div>
+    </footer>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>Chapter 1 · Knowledge Graph Project · Group 1 — Chen Jingyu &amp; Zhang Zhaoyang</p>
+  <p class="footer-zh">杭州电子科技大学《英语语言学概论》· 知识图谱建设任务 · 离线静态页，双击即用</p>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/deck.js"></script>
+<script src="js/graph.js"></script>
+<script src="js/research.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
