@@ -560,6 +560,7 @@
       focusNeighbors[focusNodeRef.data.id] = true;
     }
     var noteBoxes = []; // 本帧边注占据的屏幕矩形，作为标签避让的固定障碍
+    var noteJobs = [];  // 待绘制的边注（节点画完后统一画，避免被节点盖住）
 
     // ---- 边 ----
     for (i = 0; i < edges.length; i++) {
@@ -609,24 +610,12 @@
         ctx.stroke();
       }
       if (e.note && !dim && cam.scale > 0.4) {
-        ctx.setLineDash([]);
-        ctx.font = "10.5px Consolas, monospace";
-        var nw = ctx.measureText(e.note).width;
-        var nxp = (p1[0] + p2[0]) / 2, nyp = (p1[1] + p2[1]) / 2 - 8;
-        // 注记配色随关系类型：章节=紫、关联=灰、前沿之桥=青
-        var noteColor = e.type === "chapter" ? COLORS.violet : (e.type === "association" ? COLORS.inkFaint : COLORS.cyan);
-        var noteStroke = e.type === "chapter" ? withAlpha(COLORS.violet, 0.4)
-          : (e.type === "association" ? "rgba(242,237,227,.22)" : withAlpha(COLORS.cyan, 0.4));
-        pillPath(nxp - nw / 2 - 8, nyp - 10, nw + 16, 18, 9);
-        ctx.fillStyle = "rgba(11,11,16,.85)";
-        ctx.fill();
-        ctx.strokeStyle = noteStroke;
-        ctx.lineWidth = 1;
-        ctx.stroke();
-        ctx.fillStyle = noteColor;
-        ctx.textAlign = "center";
-        ctx.fillText(e.note, nxp, nyp + 3.5);
-        noteBoxes.push({ x: nxp - nw / 2 - 8, y: nyp - 10, w: nw + 16, h: 18 });
+        // 延迟到节点之后绘制，避免注记被节点圆圈盖住；矩形稍后登记给标签避让
+        noteJobs.push({
+          text: e.note, type: e.type,
+          x: (p1[0] + p2[0]) / 2, y: (p1[1] + p2[1]) / 2 - 8,
+          alpha: focusNodeRef ? (active ? 1 : 0.16) : 0.8
+        });
       }
       ctx.restore();
     }
@@ -760,6 +749,31 @@
       ctx.fillStyle = color;
       ctx.fill();
       ctx.restore();
+    }
+
+    // ---- 边注（延迟到节点之后绘制：不再被节点圆圈盖住，仍排在标签之前） ----
+    for (i = 0; i < noteJobs.length; i++) {
+      var nj = noteJobs[i];
+      // 注记配色随关系类型：章节=紫、关联=灰、前沿之桥=青
+      var noteColor = nj.type === "chapter" ? COLORS.violet : (nj.type === "association" ? COLORS.inkFaint : COLORS.cyan);
+      var noteStroke = nj.type === "chapter" ? withAlpha(COLORS.violet, 0.4)
+        : (nj.type === "association" ? "rgba(242,237,227,.22)" : withAlpha(COLORS.cyan, 0.4));
+      ctx.save();
+      ctx.globalAlpha = nj.alpha;
+      ctx.setLineDash([]);
+      ctx.font = "10.5px Consolas, monospace";
+      var nw2 = ctx.measureText(nj.text).width;
+      pillPath(nj.x - nw2 / 2 - 8, nj.y - 10, nw2 + 16, 18, 9);
+      ctx.fillStyle = "rgba(11,11,16,.88)";
+      ctx.fill();
+      ctx.strokeStyle = noteStroke;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      ctx.fillStyle = noteColor;
+      ctx.textAlign = "center";
+      ctx.fillText(nj.text, nj.x, nj.y + 3.5);
+      ctx.restore();
+      noteBoxes.push({ x: nj.x - nw2 / 2 - 8, y: nj.y - 10, w: nw2 + 16, h: 18 });
     }
 
     // ---- 聚焦涟漪（搜索回车 / 相关概念跳转的落点提示） ----

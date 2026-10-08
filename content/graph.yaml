@@ -645,9 +645,9 @@ edges:
   - { source: linguistics, target: metalingual, type: explanation }
 
   # 前沿之桥：计算语言学 → Part 3（网页中专用渲染，不进图谱画布的普通边）
-  - { source: computational-linguistics, target: semantics, type: explanation, note: "Meaning — from symbols to manifolds (see Part 3)" }
+  - { source: computational-linguistics, target: semantics, type: explanation, note: "From symbols to manifolds · Part 3" }
 
-  # 关联：跨模块的相关概念（非层级、非对立的语义关联）
-  - { source: phonetics,  target: phonology,  type: association, note: "physical sounds ↔ systematic patterns" }
-  - { source: semantics,  target: pragmatics, type: association, note: "encoded meaning ↔ meaning in context" }
-  - { source: langue,     target: competence, type: association, note: "Saussure's system ↔ Chomsky's knowledge (akin, not identical)" }
+  # 关联：跨模块的相关概念（非层级、非对立的语义关联；注记从简，避免压图）
+  - { source: phonetics,  target: phonology,  type: association, note: "sounds ↔ patterns" }
+  - { source: semantics,  target: pragmatics, type: association, note: "encoded ↔ in context" }
+  - { source: langue,     target: competence, type: association, note: "akin, not identical" }

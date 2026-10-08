@@ -415,8 +415,8 @@ window.LING_DATA = {
         "source": "戴炜栋 Ch.1",
         "debate_zh": "语言教学场景中规定性仍有价值，二者并非绝对对立。",
         "status": "已审核",
-        "x": 0.28,
-        "y": 0.34
+        "x": 0.3,
+        "y": 0.3
       },
       {
         "id": "descriptive",
@@ -820,25 +820,25 @@ window.LING_DATA = {
         "source": "computational-linguistics",
         "target": "semantics",
         "type": "explanation",
-        "note": "Meaning — from symbols to manifolds (see Part 3)"
+        "note": "From symbols to manifolds · Part 3"
       },
       {
         "source": "phonetics",
         "target": "phonology",
         "type": "association",
-        "note": "physical sounds ↔ systematic patterns"
+        "note": "sounds ↔ patterns"
       },
       {
         "source": "semantics",
         "target": "pragmatics",
         "type": "association",
-        "note": "encoded meaning ↔ meaning in context"
+        "note": "encoded ↔ in context"
       },
       {
         "source": "langue",
         "target": "competence",
         "type": "association",
-        "note": "Saussure's system ↔ Chomsky's knowledge (akin, not identical)"
+        "note": "akin, not identical"
       }
     ]
   },
