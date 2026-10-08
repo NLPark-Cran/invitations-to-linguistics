@@ -98,9 +98,10 @@
       <!-- 概念卡片：点击节点后弹出 -->
       <aside class="concept-card" id="concept-card" hidden>
         <button class="card-close" id="card-close" aria-label="Close"><svg class="icon"><use href="#i-x"/></svg></button>
-        <p class="card-module" id="card-module"></p>
+        <p class="card-module" id="card-module"></p><span class="card-status" id="card-status" hidden></span>
         <h3 class="card-title" id="card-title"></h3>
         <p class="card-zh" id="card-zh"></p>
+        <p class="card-sup" id="card-sup"></p>
         <div class="card-block">
           <p class="card-label">DEFINITION<em>定义</em></p>
           <p class="card-def-en" id="card-def-en"></p>
@@ -109,6 +110,14 @@
         <div class="card-block">
           <p class="card-label">EXAMPLE<em>例子</em></p>
           <p class="card-example" id="card-example"></p>
+        </div>
+        <div class="card-block" id="card-block-debate" hidden>
+          <p class="card-label">DEBATE<em>争议与限制</em></p>
+          <p class="card-debate" id="card-debate"></p>
+        </div>
+        <div class="card-block">
+          <p class="card-label">SOURCE<em>经典文献</em></p>
+          <p class="card-source" id="card-source"></p>
         </div>
         <div class="card-block">
           <p class="card-label">RELATED<em>相关概念</em></p>

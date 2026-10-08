@@ -50,7 +50,8 @@
     classification: { color: "rgba(242,237,227,.30)", width: 1, dash: [], label: "Classification 分类" },
     opposition:     { color: COLORS.opp,    width: 1.6, dash: [6, 5],  label: "Opposition 对立", double: true, vs: true },
     explanation:    { color: COLORS.cyan,   width: 1.2, dash: [2, 4],  label: "Explanation 理论解释" },
-    chapter:        { color: COLORS.violet, width: 1.3, dash: [8, 5],  label: "Next Chapters 指向章节", arrow: true }
+    chapter:        { color: COLORS.violet, width: 1.3, dash: [8, 5],  label: "Next Chapters 指向章节", arrow: true },
+    association:    { color: "rgba(242,237,227,.38)", width: 1, dash: [1.5, 5], label: "Association 关联" }
   };
 
   /* ---------- 工具 ---------- */
@@ -310,6 +311,21 @@
     document.getElementById("card-def-en").textContent = n.data.def_en;
     document.getElementById("card-def-zh").textContent = n.data.def_zh;
     document.getElementById("card-example").textContent = n.data.example || "—";
+    // 上位概念（sup_en · sup_zh）与审核状态徽章
+    document.getElementById("card-sup").textContent =
+      n.data.sup_en ? n.data.sup_en + " · " + (n.data.sup_zh || "") : "";
+    var statusEl = document.getElementById("card-status");
+    statusEl.textContent = n.data.status || "";
+    statusEl.hidden = !n.data.status;
+    // 争议与限制：有才显示（老师规格要求定义/理论/实例/争议分区存储）
+    var debateBlock = document.getElementById("card-block-debate");
+    if (n.data.debate_zh) {
+      debateBlock.hidden = false;
+      document.getElementById("card-debate").textContent = n.data.debate_zh;
+    } else {
+      debateBlock.hidden = true;
+    }
+    document.getElementById("card-source").textContent = n.data.source || "—";
     // 相关概念：点击 chips 跳转（对立关系用品红强调）
     var rel = document.getElementById("card-related");
     rel.innerHTML = "";
@@ -409,11 +425,12 @@
      拉近后补中文宋体小字。字号随缩放自适应，全部带深色背板。 */
   function labelLevel(n) {
     var focused = state.hover === n || state.selected === n || n.match;
-    if (cam.scale < 0.42) return (n.data.module === "core" || focused) ? 1 : 0;
-    if (cam.scale < 0.62) return 1;
+    if (cam.scale < 0.5) return (n.data.module === "core" || focused) ? 1 : 0;
+    if (cam.scale < 0.85) return focused ? 2 : 1; // 全景只留英文，焦点补中文
     return 2; // EN + ZH
   }
-  function drawLabel(n, p, r, level, emphasized) {
+  function drawLabel(n, p, r, level, emphasized, dx, dy) {
+    dx = dx || 0; dy = dy || 0;
     var zoomK = Math.min(cam.scale / 0.8, 1.35); // 字号自适应系数
     var enPx = Math.max(11.5, Math.min(16, 13.5 * zoomK));
     var zhPx = Math.max(9.5, Math.min(12.5, 11 * zoomK));
@@ -428,7 +445,16 @@
     var boxW = Math.max(enW, zhW) + 16;
     var lineH = enPx + 5;
     var boxH = lineH + (level === 2 ? zhPx + 7 : 0) + 8;
-    var bx = p[0] - boxW / 2, by = p[1] + r + 7;
+    var bx = p[0] - boxW / 2 + dx, by = p[1] + r + 7 + dy;
+    // 避让位移较大时画细引导线，保持标签与节点的归属关系
+    if (Math.abs(dx) + Math.abs(dy) > 14) {
+      ctx.beginPath();
+      ctx.moveTo(p[0], p[1] + r + 2);
+      ctx.lineTo(bx + boxW / 2, by);
+      ctx.strokeStyle = "rgba(242,237,227,.18)";
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
     // 背板：深底圆角块，压住穿过的边线；强调态描模块色细边
     pillPath(bx, by, boxW, boxH, 7);
     ctx.fillStyle = emphasized ? "rgba(26,26,36,.92)" : "rgba(11,11,16,.78)";
@@ -439,12 +465,76 @@
       ctx.stroke();
     }
     ctx.font = (n.data.module === "core" ? "600 " : "") + enPx + "px Georgia, serif";
-    ctx.fillStyle = emphasized ? COLORS.ink : COLORS.ink;
-    ctx.fillText(n.data.en, p[0], by + 6 + enPx * 0.78);
+    ctx.fillStyle = COLORS.ink;
+    ctx.fillText(n.data.en, p[0] + dx, by + 6 + enPx * 0.78);
     if (level === 2) {
       ctx.font = zhPx + 'px "STSong","SimSun",serif';
       ctx.fillStyle = COLORS.inkFaint;
-      ctx.fillText(n.data.zh, p[0], by + 6 + lineH + zhPx * 0.78);
+      ctx.fillText(n.data.zh, p[0] + dx, by + 6 + lineH + zhPx * 0.78);
+    }
+  }
+
+  // 只测量不绘制：返回标签基础矩形（屏幕坐标），供碰撞避让使用
+  function measureLabelBox(n, p, r, level) {
+    var zoomK = Math.min(cam.scale / 0.8, 1.35);
+    var enPx = Math.max(11.5, Math.min(16, 13.5 * zoomK));
+    var zhPx = Math.max(9.5, Math.min(12.5, 11 * zoomK));
+    ctx.textAlign = "center";
+    ctx.font = (n.data.module === "core" ? "600 " : "") + enPx + "px Georgia, serif";
+    var enW = ctx.measureText(n.data.en).width;
+    var zhW = 0;
+    if (level === 2) {
+      ctx.font = zhPx + 'px "STSong","SimSun",serif';
+      zhW = ctx.measureText(n.data.zh).width;
+    }
+    var boxW = Math.max(enW, zhW) + 16;
+    var lineH = enPx + 5;
+    var boxH = lineH + (level === 2 ? zhPx + 7 : 0) + 8;
+    return { x: p[0] - boxW / 2, y: p[1] + r + 7, w: boxW, h: boxH };
+  }
+
+  /* ---------- 标签碰撞避让 ----------
+     每帧先测量全部可见标签的矩形，做几轮松弛把重叠者推开
+     （章节/关联边注为固定障碍），偏移量逐帧平滑收敛，不抖动。 */
+  var labelOffsets = {}; // nodeId -> {x, y} 平滑后的屏幕偏移
+  function rectsOverlap(a, b) {
+    var ox = Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x);
+    var oy = Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y);
+    return (ox > 0 && oy > 0) ? [ox, oy] : null;
+  }
+  function relaxLabels(lbls, obstacles) {
+    var iter, i, j, ov;
+    for (iter = 0; iter < 7; iter++) {
+      for (i = 0; i < lbls.length; i++) {
+        for (j = i + 1; j < lbls.length; j++) {
+          var A = lbls[i], B = lbls[j];
+          ov = rectsOverlap(A.box, B.box);
+          if (!ov) continue;
+          // 核心/焦点标签少动，普通标签多动
+          var wA = (A.n.data.module === "core" || A.emph) ? 0.3 : 1;
+          var wB = (B.n.data.module === "core" || B.emph) ? 0.3 : 1;
+          var tot = wA + wB;
+          if (ov[0] < ov[1]) {
+            var dirX = (A.box.x + A.box.w / 2) < (B.box.x + B.box.w / 2) ? -1 : 1;
+            A.box.x += dirX * ov[0] / tot * wA; B.box.x -= dirX * ov[0] / tot * wB;
+          } else {
+            var dirY = (A.box.y + A.box.h / 2) < (B.box.y + B.box.h / 2) ? -1 : 1;
+            A.box.y += dirY * ov[1] / tot * wA; B.box.y -= dirY * ov[1] / tot * wB;
+          }
+        }
+        for (j = 0; j < obstacles.length; j++) {
+          var L = lbls[i], O = obstacles[j];
+          ov = rectsOverlap(L.box, O);
+          if (!ov) continue;
+          if (ov[0] < ov[1]) {
+            var dX = (L.box.x + L.box.w / 2) < (O.x + O.w / 2) ? -1 : 1;
+            L.box.x += dX * ov[0];
+          } else {
+            var dY = (L.box.y + L.box.h / 2) < (O.y + O.h / 2) ? -1 : 1;
+            L.box.y += dY * ov[1];
+          }
+        }
+      }
     }
   }
 
@@ -469,6 +559,7 @@
       (neighborOf[focusNodeRef.data.id] || []).forEach(function (nb) { focusNeighbors[nb.data.id] = true; });
       focusNeighbors[focusNodeRef.data.id] = true;
     }
+    var noteBoxes = []; // 本帧边注占据的屏幕矩形，作为标签避让的固定障碍
 
     // ---- 边 ----
     for (i = 0; i < edges.length; i++) {
@@ -522,15 +613,20 @@
         ctx.font = "10.5px Consolas, monospace";
         var nw = ctx.measureText(e.note).width;
         var nxp = (p1[0] + p2[0]) / 2, nyp = (p1[1] + p2[1]) / 2 - 8;
+        // 注记配色随关系类型：章节=紫、关联=灰、前沿之桥=青
+        var noteColor = e.type === "chapter" ? COLORS.violet : (e.type === "association" ? COLORS.inkFaint : COLORS.cyan);
+        var noteStroke = e.type === "chapter" ? withAlpha(COLORS.violet, 0.4)
+          : (e.type === "association" ? "rgba(242,237,227,.22)" : withAlpha(COLORS.cyan, 0.4));
         pillPath(nxp - nw / 2 - 8, nyp - 10, nw + 16, 18, 9);
         ctx.fillStyle = "rgba(11,11,16,.85)";
         ctx.fill();
-        ctx.strokeStyle = withAlpha(COLORS.violet, 0.4);
+        ctx.strokeStyle = noteStroke;
         ctx.lineWidth = 1;
         ctx.stroke();
-        ctx.fillStyle = COLORS.violet;
+        ctx.fillStyle = noteColor;
         ctx.textAlign = "center";
         ctx.fillText(e.note, nxp, nyp + 3.5);
+        noteBoxes.push({ x: nxp - nw / 2 - 8, y: nyp - 10, w: nw + 16, h: 18 });
       }
       ctx.restore();
     }
@@ -682,7 +778,9 @@
       ctx.restore();
     }
 
-    // ---- 标签（最后画，压在边之上；背板防遮挡） ----
+    // ---- 标签（最后画，压在边之上；背板防遮挡 + 碰撞避让） ----
+    // 第一遍：收集所有可见标签并测量基础矩形
+    var lbls = [];
     for (i = 0; i < nodes.length; i++) {
       var nn = nodes[i];
       var lvl = labelLevel(nn);
@@ -691,11 +789,28 @@
       if (epr <= 0) continue;
       var flY = (state.dragNode === nn) ? 0 : Math.sin(time * 0.8 + nn.phase) * 2.2;
       var pp = worldToScreen(nn.x, nn.y + flY);
-      var emphasized = state.hover === nn || state.selected === nn || nn.match;
+      lbls.push({
+        n: nn, lvl: lvl, p: pp, r: nn.r * cam.scale, epr: epr,
+        emph: state.hover === nn || state.selected === nn || nn.match
+      });
+    }
+    for (i = 0; i < lbls.length; i++) {
+      lbls[i].base = measureLabelBox(lbls[i].n, lbls[i].p, lbls[i].r, lbls[i].lvl);
+      lbls[i].box = { x: lbls[i].base.x, y: lbls[i].base.y, w: lbls[i].base.w, h: lbls[i].base.h };
+    }
+    relaxLabels(lbls, noteBoxes);
+    // 第二遍：平滑收敛偏移后绘制
+    for (i = 0; i < lbls.length; i++) {
+      var L = lbls[i];
+      var off = labelOffsets[L.n.data.id] || (labelOffsets[L.n.data.id] = { x: 0, y: 0 });
+      var tx = Math.max(-70, Math.min(70, L.box.x - L.base.x));
+      var ty = Math.max(-70, Math.min(70, L.box.y - L.base.y));
+      off.x += (tx - off.x) * 0.3;
+      off.y += (ty - off.y) * 0.3;
+      var inFocusL = !focusNodeRef || focusNeighbors[L.n.data.id];
       ctx.save();
-      var inFocusL = !focusNodeRef || focusNeighbors[nn.data.id];
-      ctx.globalAlpha = (inFocusL ? 1 : 0.35) * Math.min(1, epr * 1.6);
-      drawLabel(nn, pp, nn.r * cam.scale, lvl, emphasized);
+      ctx.globalAlpha = (inFocusL ? 1 : 0.35) * Math.min(1, L.epr * 1.6);
+      drawLabel(L.n, L.p, L.r, L.lvl, L.emph, off.x, off.y);
       ctx.restore();
     }
 
