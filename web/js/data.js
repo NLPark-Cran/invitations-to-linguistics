@@ -231,7 +231,7 @@ window.LING_DATA = {
         "source": "戴炜栋 Ch.1；Jakobson (1960) 诗性功能",
         "status": "已审核",
         "x": 0.2,
-        "y": 0.94
+        "y": 0.9
       },
       {
         "id": "metalingual",

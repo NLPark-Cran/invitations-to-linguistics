@@ -771,6 +771,18 @@
         }
       }
     }
+    // 注记之间再互相避让（高密度区域的两条注记可能互叠）
+    for (i = 0; i < noteJobs.length; i++) {
+      for (var k2 = i + 1; k2 < noteJobs.length; k2++) {
+        var nA = noteJobs[i], nB = noteJobs[k2];
+        var nox = (nA.w + nB.w) / 2 - Math.abs(nA.x - nB.x);
+        var noy = 18 - Math.abs(nA.y - nB.y);
+        if (nox > 0 && noy > 0) {
+          if (noy <= nox) { var nd1 = nA.y < nB.y ? -1 : 1; nA.y += nd1 * noy / 2; nB.y -= nd1 * noy / 2; }
+          else { var nd2 = nA.x < nB.x ? -1 : 1; nA.x += nd2 * nox / 2; nB.x -= nd2 * nox / 2; }
+        }
+      }
+    }
     for (i = 0; i < noteJobs.length; i++) {
       nj = noteJobs[i];
       // 注记配色随关系类型：章节=紫、关联=灰、前沿之桥=青
