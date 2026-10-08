@@ -401,7 +401,7 @@
         n = nodes[i]; m = nodes[j];
         var dx = m.x - n.x, dy = m.y - n.y;
         var dist = Math.hypot(dx, dy) || 1;
-        var minD = n.r + m.r + 54; // 半径之外留出标签呼吸位
+        var minD = n.r + m.r + 64; // 半径之外留出标签呼吸位
         if (dist < minD) {
           var f = (minD - dist) / minD * 0.28;
           var ux = dx / dist, uy = dy / dist;
@@ -572,7 +572,7 @@
       var dim = e.source.dimmed || e.target.dimmed;
       var active = focusNodeRef && (e.source === focusNodeRef || e.target === focusNodeRef);
       ctx.save();
-      ctx.globalAlpha = dim ? 0.06 : (focusNodeRef ? (active ? 1 : 0.16) : 0.8);
+      ctx.globalAlpha = dim ? 0.06 : (focusNodeRef ? (active ? 1 : 0.16) : 0.62);
       ctx.strokeStyle = st.color;
       ctx.lineWidth = st.width * (active ? 1.7 : 1);
       ctx.lineCap = "round";
@@ -611,10 +611,12 @@
       }
       if (e.note && !dim && cam.scale > 0.4) {
         // 延迟到节点之后绘制，避免注记被节点圆圈盖住；矩形稍后登记给标签避让
+        ctx.font = "10.5px Consolas, monospace";
         noteJobs.push({
           text: e.note, type: e.type,
           x: (p1[0] + p2[0]) / 2, y: (p1[1] + p2[1]) / 2 - 8,
-          alpha: focusNodeRef ? (active ? 1 : 0.16) : 0.8
+          w: ctx.measureText(e.note).width + 16,
+          alpha: focusNodeRef ? (active ? 1 : 0.16) : 0.9
         });
       }
       ctx.restore();
@@ -752,8 +754,25 @@
     }
 
     // ---- 边注（延迟到节点之后绘制：不再被节点圆圈盖住，仍排在标签之前） ----
+    // 先避让节点圆圈：注记与节点相交时沿主轴推出重叠量
     for (i = 0; i < noteJobs.length; i++) {
       var nj = noteJobs[i];
+      for (var k = 0; k < nodes.length; k++) {
+        var nd = nodes[k];
+        if (nd.dimmed) continue;
+        var np = worldToScreen(nd.x, nd.y);
+        var reach = nd.r * cam.scale + 8;
+        var ddx = nj.x - np[0], ddy = nj.y - np[1];
+        var penX = reach + nj.w / 2 - Math.abs(ddx);
+        var penY = reach + 9 - Math.abs(ddy);
+        if (penX > 0 && penY > 0) {
+          if (penX < penY) nj.x += (ddx >= 0 ? 1 : -1) * penX;
+          else nj.y += (ddy >= 0 ? 1 : -1) * penY;
+        }
+      }
+    }
+    for (i = 0; i < noteJobs.length; i++) {
+      nj = noteJobs[i];
       // 注记配色随关系类型：章节=紫、关联=灰、前沿之桥=青
       var noteColor = nj.type === "chapter" ? COLORS.violet : (nj.type === "association" ? COLORS.inkFaint : COLORS.cyan);
       var noteStroke = nj.type === "chapter" ? withAlpha(COLORS.violet, 0.4)
@@ -762,7 +781,7 @@
       ctx.globalAlpha = nj.alpha;
       ctx.setLineDash([]);
       ctx.font = "10.5px Consolas, monospace";
-      var nw2 = ctx.measureText(nj.text).width;
+      var nw2 = nj.w - 16;
       pillPath(nj.x - nw2 / 2 - 8, nj.y - 10, nw2 + 16, 18, 9);
       ctx.fillStyle = "rgba(11,11,16,.88)";
       ctx.fill();
