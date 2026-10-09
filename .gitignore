@@ -7,3 +7,4 @@ alice-tool-web_fetch-*.txt
 *.doc
 *.pptx
 node_modules/
+video/out/
