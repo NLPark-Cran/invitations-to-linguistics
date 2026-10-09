@@ -1,4 +1,4 @@
-// S7 distinctions（3960-4560，20s）：四对区分，VS 对撞式呈现（品红强调）
+// S7 distinctions（2940-3420，16s）：四对区分，VS 对撞式呈现（品红强调）
 import React from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { C, F } from "../tokens";
@@ -6,15 +6,17 @@ import { breathe, fadeIn, map, springIn } from "../components/anim";
 import { Background } from "../components/Background";
 import { Kicker } from "../components/Kicker";
 import { Caption } from "../components/Caption";
+import { Stamp } from "../components/Stamp";
 import { DISTINCTIONS, PairItem } from "../data";
 
 const PairRow: React.FC<{ item: PairItem; index: number }> = ({ item, index }) => {
   const frame = useCurrentFrame();
-  const at = 50 + index * 60;
+  const at = 36 + index * 48;
   const eL = springIn(frame, at, 11);
-  const eR = springIn(frame, at + 6, 11);
-  const eV = springIn(frame, at + 14, 9); // VS 重回弹，对撞感
-  const pulse = breathe(frame, 70, index * 1.2);
+  const eR = springIn(frame, at + 5, 11);
+  const eV = springIn(frame, at + 11, 9); // VS 重回弹，对撞感
+  const pulse = breathe(frame, 60, index * 1.2);
+  const crash = Math.max(0, 1 - Math.abs(frame - (at + 18)) / 18); // 对撞瞬间爆闪
 
   const termCard = (en: string, zh: string, align: "left" | "right") => (
     <div
@@ -49,8 +51,8 @@ const PairRow: React.FC<{ item: PairItem; index: number }> = ({ item, index }) =
           height: 66,
           borderRadius: "50%",
           backgroundColor: C.oppSoft,
-          border: `1.5px solid rgba(255,92,122,${0.5 + pulse * 0.3})`,
-          boxShadow: `0 0 ${14 + pulse * 16}px rgba(255,92,122,${0.18 + pulse * 0.14})`,
+          border: `1.5px solid rgba(255,92,122,${0.55 + pulse * 0.3 + crash * 0.15})`,
+          boxShadow: `0 0 ${18 + pulse * 20 + crash * 46}px rgba(255,92,122,${0.24 + pulse * 0.16 + crash * 0.4})`,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -73,7 +75,7 @@ const PairRow: React.FC<{ item: PairItem; index: number }> = ({ item, index }) =
       </div>
 
       {/* 注释 */}
-      <div style={{ flex: 1, opacity: fadeIn(frame, at + 24, 22), paddingLeft: 26 }}>
+      <div style={{ flex: 1, opacity: fadeIn(frame, at + 18, 16), paddingLeft: 26 }}>
         <div style={{ fontFamily: F.enDisplay, fontSize: 21, lineHeight: 1.45, color: C.inkDim }}>
           {item.noteEn}
         </div>
@@ -91,43 +93,48 @@ export const S7Distinctions: React.FC = () => {
   return (
     <AbsoluteFill>
       <Background hue="opp" />
+      <Stamp text="CH.1 · 06 · VS · n = 4" color={C.opp} delay={8} />
       <div style={{ position: "absolute", left: 200, top: 92, right: 200 }}>
-        <div style={{ opacity: fadeIn(frame, 12, 18), transform: `translateY(${(1 - springIn(frame, 12)) * 18}px)` }}>
+        <div style={{ opacity: fadeIn(frame, 8, 14), transform: `translateY(${(1 - springIn(frame, 8)) * 18}px)` }}>
           <Kicker en={DISTINCTIONS.kicker.en} zh={DISTINCTIONS.kicker.zh} color={C.opp} />
         </div>
 
         <div
           style={{
-            marginTop: 24,
+            marginTop: 22,
             fontFamily: F.enDisplay,
             fontSize: 60,
             color: C.ink,
-            opacity: springIn(frame, 22),
-            transform: `translateY(${(1 - springIn(frame, 22)) * 28}px)`,
+            opacity: springIn(frame, 14),
+            transform: `translateY(${(1 - springIn(frame, 14)) * 28}px)`,
           }}
         >
-          Draw the lines <span style={{ fontStyle: "italic", color: C.opp }}>first</span>.
+          Draw the lines{" "}
+          <span style={{ fontStyle: "italic", color: C.opp, textShadow: "0 0 34px rgba(255,92,122,.5)" }}>
+            first
+          </span>
+          .
         </div>
 
         {/* 顶部细线 */}
         <div
           style={{
-            width: map(frame, 40, 80, 0, 1520),
+            width: map(frame, 22, 46, 0, 1520),
             height: 1,
             backgroundColor: C.line,
-            marginTop: 34,
+            marginTop: 30,
           }}
         />
 
         {/* 四行对撞 */}
-        <div style={{ marginTop: 40, display: "flex", flexDirection: "column", gap: 34 }}>
+        <div style={{ marginTop: 34, display: "flex", flexDirection: "column", gap: 32 }}>
           {DISTINCTIONS.items.map((item, i) => (
             <PairRow key={item.leftEn} item={item} index={i} />
           ))}
         </div>
       </div>
 
-      <Caption text={DISTINCTIONS.titleZh} delay={40} />
+      <Caption text={DISTINCTIONS.titleZh} hl="界限" color={C.opp} delay={22} />
     </AbsoluteFill>
   );
 };

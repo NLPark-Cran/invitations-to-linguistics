@@ -4,8 +4,8 @@
 export const FPS = 30;
 export const WIDTH = 1920;
 export const HEIGHT = 1080;
-export const DURATION = 5400; // 180s
-export const FADE = 15; // 幕间交叉淡化 0.5s
+export const DURATION = 4029; // 134.3s —— 压进《克劳德の小曲》音频长度
+export const FADE = 9; // 幕间交叉淡化 0.3s
 
 // ---- 色彩令牌 ----
 export const C = {
@@ -47,14 +47,14 @@ export interface SceneDef {
 }
 
 export const SCENES: SceneDef[] = [
-  { id: "S0", start: 0, end: 240 }, // 片头 8s
-  { id: "S1", start: 240, end: 840 }, // opening hook 20s
-  { id: "S2", start: 840, end: 1500 }, // definition 22s
-  { id: "S3", start: 1500, end: 2160 }, // features 22s
-  { id: "S4", start: 2160, end: 2820 }, // functions 22s
-  { id: "S5", start: 2820, end: 3360 }, // linguistics triad 18s
-  { id: "S6", start: 3360, end: 3960 }, // branches map 20s
-  { id: "S7", start: 3960, end: 4560 }, // distinctions 20s
-  { id: "S8", start: 4560, end: 4980 }, // closing 14s
-  { id: "S9", start: 4980, end: 5400 }, // 研究预告 + 署名 14s
+  { id: "S0", start: 0, end: 150 }, // 片头 5s
+  { id: "S1", start: 150, end: 510 }, // opening hook 12s
+  { id: "S2", start: 510, end: 1050 }, // definition 18s
+  { id: "S3", start: 1050, end: 1530 }, // features 16s
+  { id: "S4", start: 1530, end: 2070 }, // functions 18s
+  { id: "S5", start: 2070, end: 2460 }, // linguistics triad 13s
+  { id: "S6", start: 2460, end: 2940 }, // branches map 16s
+  { id: "S7", start: 2940, end: 3420 }, // distinctions 16s
+  { id: "S8", start: 3420, end: 3720 }, // closing 10s
+  { id: "S9", start: 3720, end: 4029 }, // 研究预告 + 署名 ~10s
 ];

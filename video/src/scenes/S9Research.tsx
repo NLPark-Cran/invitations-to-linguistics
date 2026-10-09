@@ -1,10 +1,12 @@
-// S9 研究预告 + 署名（4980-5400，14s）：
+// S9 研究预告 + 署名（3720-4029，约 10s）：
 // The Semantic Manifold Hypothesis 标题浮现 + Chen Jingyu & Zhang Zhaoyang · Group 1
 import React from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { C, F } from "../tokens";
 import { breathe, drift, fadeIn, map, rise, springIn } from "../components/anim";
 import { Background } from "../components/Background";
+import { Caption } from "../components/Caption";
+import { Stamp } from "../components/Stamp";
 import { RESEARCH } from "../data";
 
 export const S9Research: React.FC = () => {
@@ -15,6 +17,7 @@ export const S9Research: React.FC = () => {
   return (
     <AbsoluteFill>
       <Background hue="cyan" />
+      <Stamp text="NEXT · PART 3 · PREVIEW" color={C.cyan} delay={6} />
 
       {/* 标题后方的青色呼吸光晕：流形/潜空间的冷色暗示 */}
       <div
@@ -48,8 +51,8 @@ export const S9Research: React.FC = () => {
             display: "flex",
             alignItems: "baseline",
             gap: 24,
-            opacity: fadeIn(frame, 10, 20),
-            transform: `translateY(${rise(frame, 10, 16)}px)`,
+            opacity: fadeIn(frame, 8, 14),
+            transform: `translateY(${rise(frame, 8, 16)}px)`,
           }}
         >
           <span
@@ -72,15 +75,15 @@ export const S9Research: React.FC = () => {
         {/* 假说标题 */}
         <div
           style={{
-            marginTop: 54,
+            marginTop: 46,
             fontFamily: F.enDisplay,
             fontSize: 88,
             lineHeight: 1.18,
             color: C.ink,
             maxWidth: 1500,
-            opacity: springIn(frame, 26),
-            transform: `translateY(${rise(frame, 26, 38)}px) scale(${0.97 + springIn(frame, 26) * 0.03})`,
-            textShadow: `0 0 ${30 + glow * 30}px rgba(127,216,232,${0.12 + glow * 0.1})`,
+            opacity: springIn(frame, 16),
+            transform: `translateY(${rise(frame, 16, 38)}px) scale(${0.97 + springIn(frame, 16) * 0.03})`,
+            textShadow: `0 0 ${40 + glow * 34}px rgba(127,216,232,${0.18 + glow * 0.14})`,
           }}
         >
           The Semantic <span style={{ fontStyle: "italic", color: C.cyan }}>Manifold</span> Hypothesis
@@ -93,8 +96,8 @@ export const S9Research: React.FC = () => {
             fontSize: 30,
             letterSpacing: "0.34em",
             color: C.inkDim,
-            opacity: fadeIn(frame, 55, 24),
-            transform: `translateY(${rise(frame, 55, 18)}px)`,
+            opacity: fadeIn(frame, 36, 18),
+            transform: `translateY(${rise(frame, 36, 18)}px)`,
           }}
         >
           {RESEARCH.titleZh}
@@ -109,7 +112,7 @@ export const S9Research: React.FC = () => {
             lineHeight: 1.6,
             color: C.inkDim,
             maxWidth: 1160,
-            opacity: fadeIn(frame, 95, 28),
+            opacity: fadeIn(frame, 60, 20),
           }}
         >
           {RESEARCH.teaserEn}
@@ -118,23 +121,24 @@ export const S9Research: React.FC = () => {
         {/* 细线 */}
         <div
           style={{
-            width: map(frame, 150, 190, 0, 300),
+            width: map(frame, 92, 122, 0, 300),
             height: 1,
             backgroundColor: C.line,
-            marginTop: 64,
+            marginTop: 52,
           }}
         />
 
         {/* 署名 */}
         <div
           style={{
-            marginTop: 36,
+            marginTop: 30,
             fontFamily: F.mono,
             fontSize: 26,
             letterSpacing: "0.12em",
             color: C.accent,
-            opacity: fadeIn(frame, 180, 26),
-            transform: `translateY(${rise(frame, 180, 16)}px)`,
+            opacity: fadeIn(frame, 132, 20),
+            transform: `translateY(${rise(frame, 132, 16)}px)`,
+            textShadow: `0 0 20px rgba(240,201,107,.4)`,
           }}
         >
           {RESEARCH.signature}
@@ -146,7 +150,7 @@ export const S9Research: React.FC = () => {
             fontSize: 20,
             letterSpacing: "0.24em",
             color: C.inkFaint,
-            opacity: fadeIn(frame, 200, 26),
+            opacity: fadeIn(frame, 146, 20),
           }}
         >
           {RESEARCH.signatureZh}
@@ -154,22 +158,7 @@ export const S9Research: React.FC = () => {
       </div>
 
       {/* 中文字幕 */}
-      <div
-        style={{
-          position: "absolute",
-          left: 0,
-          right: 0,
-          bottom: 60,
-          textAlign: "center",
-          fontFamily: F.zhSerif,
-          fontSize: 25,
-          letterSpacing: "0.14em",
-          color: C.inkFaint,
-          opacity: fadeIn(frame, 120, 26),
-        }}
-      >
-        {RESEARCH.teaserZh}
-      </div>
+      <Caption text={RESEARCH.teaserZh} hl="光滑流形" color={C.cyan} delay={70} />
     </AbsoluteFill>
   );
 };

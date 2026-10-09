@@ -1,4 +1,4 @@
-// S6 branches（3360-3960，20s）：核心六分支 + 宏观四分支地图式陈列，
+// S6 branches（2460-2940，16s）：核心六分支 + 宏观四分支地图式陈列，
 // Computational Linguistics 以青色桥梁高亮（通往 Part 3）
 import React from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
@@ -8,6 +8,7 @@ import { breathe, fadeIn, map, rise, springIn } from "../components/anim";
 import { Background } from "../components/Background";
 import { Kicker } from "../components/Kicker";
 import { Caption } from "../components/Caption";
+import { Stamp } from "../components/Stamp";
 
 // ---- 地图坐标 ----
 const HUB = { x: 960, y: 590, r: 96 };
@@ -46,7 +47,7 @@ const NodeCard: React.FC<{
           borderRadius: 14,
           padding: "16px 24px 18px",
           boxShadow: isBridge
-            ? `0 0 ${24 + glow * 22}px rgba(127,216,232,${0.16 + glow * 0.14}), 0 12px 36px rgba(0,0,0,.35)`
+            ? `0 0 ${34 + glow * 30}px rgba(127,216,232,${0.22 + glow * 0.2}), 0 12px 36px rgba(0,0,0,.35)`
             : "0 1px 3px rgba(0,0,0,.25), 0 10px 28px rgba(0,0,0,.26)",
         }}
       >
@@ -117,17 +118,18 @@ const NodeCard: React.FC<{
 
 export const S6Branches: React.FC = () => {
   const frame = useCurrentFrame();
-  const hubEnter = springIn(frame, 36);
+  const hubEnter = springIn(frame, 24);
   const hubGlow = breathe(frame, 90);
 
   const lineAt = (side: "left" | "right", i: number) =>
-    side === "left" ? 60 + i * 20 : 190 + i * 24;
+    side === "left" ? 40 + i * 18 : 150 + i * 20;
 
   return (
     <AbsoluteFill>
       <Background hue="cyan" />
+      <Stamp text="CH.1 · 05 · MAP · 6 + 4" color={C.cyan} delay={8} />
       <div style={{ position: "absolute", left: 200, top: 88, right: 200 }}>
-        <div style={{ opacity: fadeIn(frame, 10, 18), transform: `translateY(${rise(frame, 10, 16)}px)` }}>
+        <div style={{ opacity: fadeIn(frame, 8, 14), transform: `translateY(${rise(frame, 8, 16)}px)` }}>
           <Kicker en={BRANCHES.kicker.en} zh={BRANCHES.kicker.zh} color={C.cyan} />
         </div>
         <div
@@ -136,11 +138,15 @@ export const S6Branches: React.FC = () => {
             fontFamily: F.enDisplay,
             fontSize: 54,
             color: C.ink,
-            opacity: springIn(frame, 20),
-            transform: `translateY(${rise(frame, 20, 24)}px)`,
+            opacity: springIn(frame, 14),
+            transform: `translateY(${rise(frame, 14, 24)}px)`,
           }}
         >
-          One discipline, <span style={{ fontStyle: "italic", color: C.cyan }}>many doors</span>.
+          One discipline,{" "}
+          <span style={{ fontStyle: "italic", color: C.cyan, textShadow: "0 0 32px rgba(127,216,232,.5)" }}>
+            many doors
+          </span>
+          .
         </div>
         <div
           style={{
@@ -149,7 +155,7 @@ export const S6Branches: React.FC = () => {
             fontSize: 20,
             color: C.inkFaint,
             letterSpacing: "0.1em",
-            opacity: fadeIn(frame, 40, 22),
+            opacity: fadeIn(frame, 28, 16),
           }}
         >
           {BRANCHES.bodyZh}
@@ -166,7 +172,7 @@ export const S6Branches: React.FC = () => {
           fontSize: 19,
           letterSpacing: "0.3em",
           color: C.accent,
-          opacity: fadeIn(frame, 46, 18),
+          opacity: fadeIn(frame, 30, 14),
         }}
       >
         CORE <span style={{ fontFamily: F.zhSerif, color: C.inkFaint, letterSpacing: "0.14em" }}>核心分支</span>
@@ -180,7 +186,7 @@ export const S6Branches: React.FC = () => {
           fontSize: 19,
           letterSpacing: "0.3em",
           color: C.violet,
-          opacity: fadeIn(frame, 170, 18),
+          opacity: fadeIn(frame, 130, 14),
         }}
       >
         MACRO <span style={{ fontFamily: F.zhSerif, color: C.inkFaint, letterSpacing: "0.14em" }}>宏观分支</span>
@@ -253,7 +259,7 @@ export const S6Branches: React.FC = () => {
         <NodeCard key={item.termEn} item={item} side="right" index={i} top={rightY[i]} at={lineAt("right", i) + 12} />
       ))}
 
-      <Caption text={BRANCHES.titleZh} delay={40} />
+      <Caption text={BRANCHES.titleZh} hl="许多入口" color={C.cyan} delay={24} />
     </AbsoluteFill>
   );
 };

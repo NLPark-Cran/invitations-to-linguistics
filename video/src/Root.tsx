@@ -1,7 +1,8 @@
-// Root：注册 Composition "LingCh1"（1920×1080 · 30fps · 5400 帧）
-// 幕间 0.5s 交叉淡化：相邻 Sequence 交叠 FADE 帧，Scene 组件负责透明度斜坡
+// Root：注册 Composition "LingCh1"（1920×1080 · 30fps · 4029 帧 = 134.3s，对齐音频）
+// 幕间 0.3s 交叉淡化：相邻 Sequence 交叠 FADE 帧，Scene 组件负责透明度斜坡
+// 音频：public/audio.mp4《克劳德の小曲》，Remotion 自动抽取 mp4 音轨
 import React from "react";
-import { AbsoluteFill, Composition, Sequence } from "remotion";
+import { AbsoluteFill, Audio, Composition, Sequence, staticFile } from "remotion";
 import { C, DURATION, FADE, FPS, HEIGHT, SCENES, WIDTH } from "./tokens";
 import { Scene } from "./components/Scene";
 import { S0Title } from "./scenes/S0Title";
@@ -31,6 +32,7 @@ const SCENE_COMPONENTS = [
 const LingCh1: React.FC = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: C.bg }}>
+      <Audio src={staticFile("audio.mp4")} />
       {SCENES.map((s, i) => {
         const first = i === 0;
         const last = i === SCENES.length - 1;

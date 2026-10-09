@@ -1,4 +1,4 @@
-// S3 features（1500-2160，22s）：五个识别特征级联入场（模块色绿）
+// S3 features（1050-1530，16s）：五个识别特征级联入场（模块色绿）
 import React from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { C, F } from "../tokens";
@@ -6,13 +6,15 @@ import { fadeIn, map, rise, springIn } from "../components/anim";
 import { Background } from "../components/Background";
 import { Kicker } from "../components/Kicker";
 import { Caption } from "../components/Caption";
+import { Stamp } from "../components/Stamp";
 import { FEATURES } from "../data";
 
 const Row: React.FC<{ index: number }> = ({ index }) => {
   const frame = useCurrentFrame();
   const item = FEATURES.items[index];
-  const at = 80 + index * 82; // 级联
+  const at = 50 + index * 62; // 级联收紧
   const enter = springIn(frame, at);
+  const flash = Math.max(0, 1 - Math.abs(frame - (at + 14)) / 20); // 入场瞬间脉冲
 
   return (
     <div
@@ -20,7 +22,7 @@ const Row: React.FC<{ index: number }> = ({ index }) => {
         display: "flex",
         alignItems: "center",
         gap: 44,
-        padding: "26px 0",
+        padding: "24px 0",
         borderBottom: `1px solid ${C.line}`,
         opacity: enter,
         transform: `translateY(${rise(frame, at, 30)}px)`,
@@ -35,6 +37,7 @@ const Row: React.FC<{ index: number }> = ({ index }) => {
           width: 52,
           flexShrink: 0,
           opacity: 0.9,
+          textShadow: `0 0 ${10 + flash * 14}px rgba(143,217,168,${0.35 + flash * 0.4})`,
         }}
       >
         0{index + 1}
@@ -42,7 +45,15 @@ const Row: React.FC<{ index: number }> = ({ index }) => {
 
       {/* 术语中英对照 */}
       <div style={{ width: 460, flexShrink: 0 }}>
-        <div style={{ fontFamily: F.enDisplay, fontSize: 40, color: C.ink, lineHeight: 1.15 }}>
+        <div
+          style={{
+            fontFamily: F.enDisplay,
+            fontSize: 40,
+            color: C.ink,
+            lineHeight: 1.15,
+            textShadow: `0 0 ${flash * 30}px rgba(143,217,168,${flash * 0.4})`,
+          }}
+        >
           {item.termEn}
         </div>
         <div style={{ fontFamily: F.zhSerif, fontSize: 21, color: C.inkDim, marginTop: 6, letterSpacing: "0.1em" }}>
@@ -69,31 +80,36 @@ export const S3Features: React.FC = () => {
   return (
     <AbsoluteFill>
       <Background hue="cyan" />
+      <Stamp text="CH.1 · 02 · FEATURES · n = 5" color={C.green} delay={8} />
       <div style={{ position: "absolute", left: 200, top: 108, right: 200 }}>
-        <div style={{ opacity: fadeIn(frame, 12, 18), transform: `translateY(${rise(frame, 12, 18)}px)` }}>
+        <div style={{ opacity: fadeIn(frame, 8, 14), transform: `translateY(${rise(frame, 8, 18)}px)` }}>
           <Kicker en={FEATURES.kicker.en} zh={FEATURES.kicker.zh} color={C.green} />
         </div>
 
         <div
           style={{
-            marginTop: 34,
+            marginTop: 32,
             fontFamily: F.enDisplay,
             fontSize: 66,
             color: C.ink,
-            opacity: springIn(frame, 24),
-            transform: `translateY(${rise(frame, 24, 30)}px)`,
+            opacity: springIn(frame, 16),
+            transform: `translateY(${rise(frame, 16, 30)}px)`,
           }}
         >
-          What makes language, <span style={{ fontStyle: "italic", color: C.green }}>language</span>?
+          What makes language,{" "}
+          <span style={{ fontStyle: "italic", color: C.green, textShadow: "0 0 34px rgba(143,217,168,.45)" }}>
+            language
+          </span>
+          ?
         </div>
 
         {/* 顶部细线生长 */}
         <div
           style={{
-            width: map(frame, 50, 90, 0, 1520),
+            width: map(frame, 30, 58, 0, 1520),
             height: 1,
             backgroundColor: C.line,
-            marginTop: 30,
+            marginTop: 28,
           }}
         />
 
@@ -104,7 +120,7 @@ export const S3Features: React.FC = () => {
         </div>
       </div>
 
-      <Caption text={FEATURES.titleZh} delay={40} />
+      <Caption text={FEATURES.titleZh} hl="五个识别特征" color={C.green} delay={26} />
     </AbsoluteFill>
   );
 };
